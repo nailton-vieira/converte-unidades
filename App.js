@@ -1,11 +1,76 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 export default function App() {
+  const [valor, setValor] = useState(''); // Valor inserido pelo usuário
+  const [unidadeEntrada, setUnidadeEntrada] = useState('metros'); // Unidade de entrada
+  const [unidadeSaida, setUnidadeSaida] = useState('milhas'); // Unidade de saída
+  const [resultado, setResultado] = useState(null); // Resultado da conversão
+
+  // Tabela de conversão para simplificar os cálculos
+  const fatoresConversao = {
+    metros: 1,
+    milhas: 1609.34,
+    quilometros: 1000,
+  };
+
+  // Função para realizar a conversão
+  const converter = () => {
+    const valorNum = parseFloat(valor); // Converte para número
+    if (isNaN(valorNum) || valorNum < 0) {
+      setResultado('Por favor, insira um valor válido!');
+      return;
+    }
+
+    // Realiza a conversão com base nos fatores
+    const valorEmMetros = valorNum * fatoresConversao[unidadeEntrada]; // Converte para metros
+    const valorConvertido = valorEmMetros / fatoresConversao[unidadeSaida]; // Converte para a unidade de saída
+
+    setResultado(valorConvertido.toFixed(5)); // Mostra o resultado com 5 casas decimais
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text style={styles.title}>Conversor de Unidades</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Digite o valor"
+        keyboardType="numeric"
+        value={valor}
+        onChangeText={setValor} // Atualiza o estado ao digitar
+      />
+
+      <Text style={styles.label}>De:</Text>
+      <Picker
+        selectedValue={unidadeEntrada}
+        onValueChange={(itemValue) => setUnidadeEntrada(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Metros" value="metros" />
+        <Picker.Item label="Milhas" value="milhas" />
+        <Picker.Item label="Quilômetros" value="quilometros" />
+      </Picker>
+
+      <Text style={styles.label}>Para:</Text>
+      <Picker
+        selectedValue={unidadeSaida}
+        onValueChange={(itemValue) => setUnidadeSaida(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Metros" value="metros" />
+        <Picker.Item label="Milhas" value="milhas" />
+        <Picker.Item label="Quilômetros" value="quilometros" />
+      </Picker>
+
+      <Button title="Converter" onPress={converter} />
+
+      {resultado !== null && (
+        <Text style={styles.result}>
+          {typeof resultado === 'string' ? resultado : `Resultado: ${resultado} ${unidadeSaida}`}
+        </Text>
+      )}
     </View>
   );
 }
@@ -13,8 +78,43 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
+  input: {
+    width: '100%',
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+  },
+  picker: {
+    width: '100%',
+    height: 50,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  label: {
+    fontSize: 16,
+    color: '#333',
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+  },
+  result: {
+    marginTop: 20,
+    fontSize: 18,
+    color: '#555',
   },
 });
