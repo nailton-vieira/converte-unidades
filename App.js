@@ -1,11 +1,14 @@
+
+// Importando componentes
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+// Componente que cria os menus de seleção das unidades, assim como o spinner
 import { Picker } from '@react-native-picker/picker';
 
 export default function App() {
   const [valor, setValor] = useState(''); // Valor inserido pelo usuário
-  const [unidadeEntrada, setUnidadeEntrada] = useState('metros'); // Unidade de entrada
-  const [unidadeSaida, setUnidadeSaida] = useState('milhas'); // Unidade de saída
+  const [unidadeEntrada, setUnidadeEntrada] = useState('metros'); // Unidade de entrada iniciada
+  const [unidadeSaida, setUnidadeSaida] = useState('milhas'); // Unidade de saída iniciada
   const [resultado, setResultado] = useState(null); // Resultado da conversão
 
   // Tabela de conversão para simplificar os cálculos
@@ -45,7 +48,8 @@ export default function App() {
       />
 
       <Text style={styles.label}>De:</Text>
-      <Picker
+      
+       <Picker
         selectedValue={unidadeEntrada}
         onValueChange={(itemValue) => setUnidadeEntrada(itemValue)}
         style={styles.picker}
@@ -79,7 +83,7 @@ export default function App() {
     </View>
   );
 }
-
+//Estiliza os componentes, como cores, fontes e layout.
 const styles = StyleSheet.create({
   container: {
     flex: 1,
