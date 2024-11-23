@@ -10,9 +10,11 @@ export default function App() {
 
   // Tabela de conversão para simplificar os cálculos
   const fatoresConversao = {
+    centimetros: 0.01,
     metros: 1,
-    milhas: 1609.34,
     quilometros: 1000,
+    milhas: 1609.34,
+    
   };
 
   // Função para realizar a conversão
@@ -48,9 +50,11 @@ export default function App() {
         onValueChange={(itemValue) => setUnidadeEntrada(itemValue)}
         style={styles.picker}
       >
+        <Picker.Item label="Centimetros" value="centimetros" />
         <Picker.Item label="Metros" value="metros" />
-        <Picker.Item label="Milhas" value="milhas" />
         <Picker.Item label="Quilômetros" value="quilometros" />
+        <Picker.Item label="Milhas" value="milhas" />
+        
       </Picker>
 
       <Text style={styles.label}>Para:</Text>
@@ -59,9 +63,10 @@ export default function App() {
         onValueChange={(itemValue) => setUnidadeSaida(itemValue)}
         style={styles.picker}
       >
+        <Picker.Item label="Centimetros" value="centimetros" />
         <Picker.Item label="Metros" value="metros" />
-        <Picker.Item label="Milhas" value="milhas" />
         <Picker.Item label="Quilômetros" value="quilometros" />
+        <Picker.Item label="Milhas" value="milhas" />
       </Picker>
 
       <Button title="Converter" onPress={converter} />
